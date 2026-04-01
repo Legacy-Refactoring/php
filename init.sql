@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS customers (
     deleted_at TEXT
 );
 
-CREATE TABLE IF NOT EXISTSpayment_methods (
+CREATE TABLE IF NOT EXISTS payment_methods (
     id TEXT,
     customer_id TEXT,
     type TEXT,
@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTSpayment_methods (
     deleted_at TEXT
 );
 
-CREATE TABLE IF NOT EXISTSpayments (
+CREATE TABLE IF NOT EXISTS payments (
     id TEXT,
     customer_id TEXT,
     payment_method_id TEXT,
@@ -130,7 +130,7 @@ CREATE TABLE IF NOT EXISTSpayments (
     expired_at TEXT
 );
 
-CREATE TABLE IF NOT EXISTSrefunds (
+CREATE TABLE IF NOT EXISTS refunds (
     id TEXT,
     payment_id TEXT,
     external_refund_id TEXT,
@@ -150,7 +150,7 @@ CREATE TABLE IF NOT EXISTSrefunds (
     processed_at TEXT
 );
 
-CREATE TABLE IF NOT EXISTSchargebacks (
+CREATE TABLE IF NOT EXISTS chargebacks (
     id TEXT,
     payment_id TEXT,
     external_case_id TEXT,
@@ -170,7 +170,7 @@ CREATE TABLE IF NOT EXISTSchargebacks (
     closed_at TEXT
 );
 
-CREATE TABLE IF NOT EXISTSfraud_reviews (
+CREATE TABLE IF NOT EXISTS fraud_reviews (
     id TEXT,
     payment_id TEXT,
     customer_id TEXT,
@@ -190,7 +190,7 @@ CREATE TABLE IF NOT EXISTSfraud_reviews (
     updated_at TEXT
 );
 
-CREATE TABLE IF NOT EXISTSpayment_logs (
+CREATE TABLE IF NOT EXISTS payment_logs (
     id TEXT,
     payment_id TEXT,
     customer_id TEXT,
