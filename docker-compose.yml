@@ -1,0 +1,41 @@
+services:
+  db:
+    image: postgres:17
+    container_name: legacy_db
+    environment:
+      POSTGRES_DB: legacy_payments
+      POSTGRES_USER: legacy_user
+      POSTGRES_PASSWORD: legacy_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+      - ./seeder.sql:/docker-entrypoint-initdb.d/02-seeder.sql:ro
+
+  php:
+    build:
+      context: .
+      dockerfile_inline: |
+        FROM php:8.5-cli-alpine
+        RUN apk add --no-cache postgresql-dev $PHPIZE_DEPS \
+            && docker-php-ext-install pgsql \
+            && apk del $PHPIZE_DEPS
+    container_name: legacy_php_cli
+    depends_on:
+      - db
+    working_dir: /app
+    volumes:
+      - ./:/app
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: legacy_payments
+      DB_USER: legacy_user
+      DB_PASSWORD: legacy_password
+    tty: true
+    stdin_open: true
+    command: ["sh", "-c", "tail -f /dev/null"]
+
+volumes:
+  postgres_data:
